@@ -97,6 +97,8 @@ class PostController extends Controller
 }
 ```
 
+## Documentation
+
 ### Available methods:
 
 ```php
@@ -121,7 +123,7 @@ $response->addDetails(array $details);
 $response->json()
 ```
 
-## Available status code:
+### Available status code:
 
 | Status code | Response type | Default message       |
 | ----------- | ------------- | --------------------- |
