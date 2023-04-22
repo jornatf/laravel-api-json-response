@@ -121,6 +121,24 @@ $response->addDetails(array $details);
 $response->json()
 ```
 
+## Available status code:
+
+| Status code | Response type | Default message       |
+| ----------- | ------------- | --------------------- |
+| `200`       | `success`     | Ok                    |
+| `201`       | `success`     | Created               |
+| `202`       | `success`     | Accepted              |
+| `400`       | `error`       | Bad Request           |
+| `401`       | `error`       | Unauthorized          |
+| `403`       | `error`       | Forbidden             |
+| `404`       | `error`       | Not Found             |
+| `405`       | `error`       | Method Not Allowed    |
+| `408`       | `error`       | Request Timeout       |
+| `429`       | `error`       | Too Many Requests     |
+| `500`       | `error`       | Internal Server Error |
+| `502`       | `error`       | Bad Gateway           |
+| `503`       | `error`       | Service Unavailable   |
+
 ## Testing
 
 ```bash
