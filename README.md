@@ -7,9 +7,11 @@
 
 A Laravel Package that returns a JSON Response for APIs. In some methods, you can return cool Json response for your API.
 
+> #### If you like this package you can [Buy me a Coffee](https://www.buymeacoffee.com/jornatf) ☕️
+
 ## Installation
 
-You can install the package via composer:
+### Via composer:
 
 ```bash
 composer require jornatf/laravel-api-json-response
@@ -17,7 +19,9 @@ composer require jornatf/laravel-api-json-response
 
 ## Usage
 
-### Example with `PostController`:
+### Example 1:
+
+> This example shows you how to use the basic required methods.
 
 ```php
 <?php
@@ -31,19 +35,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    public function show(int $post_id)
-    {
-        $post = Post::find($post_id);
-
-        if (! $post) {
-            return ApiResponse::response(404)->json();
-        }
-
-        return ApiResponse::response(200)
-            ->addDatas($post)
-            ->json();
-    }
-
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -68,7 +59,7 @@ class PostController extends Controller
 }
 ```
 
-### Success response example:
+**Success response:**
 
 ```json
 {
@@ -86,13 +77,63 @@ class PostController extends Controller
 }
 ```
 
-### Error response example:
+**Error response:**
 
 ```json
 {
     "error": {
         "status": 404,
         "message": "Not Found"
+    }
+}
+```
+
+### Exemple 2:
+
+> This example shows you how to use a method to find a model and return a JSON Reponse in a single line of code.
+
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Post;
+use App\Http\Controllers\Controller;
+
+class PostController extends Controller
+{
+	public function show(int $post_id)
+	{
+		return ApiResponse::find(Post::class, $post_id)->json();
+	}
+}
+```
+
+**If model found:**
+
+```json
+{
+    "success": {
+        "status": 200,
+        "message": "Post Found",
+        "data": {
+            "id": 1,
+            "title": "Morbi in diam id dolor vehicula finibus",
+            "content": "<p>Lorem ipsum dolor sit amet, ...</p>",
+            "created_at": "2023-04-20 00:00:00",
+            "updated_at": "2023-04-20 00:00:00"
+        }
+    }
+}
+```
+
+**Else:**
+
+```json
+{
+    "error": {
+        "status": 404,
+        "message": "Post Not Found"
     }
 }
 ```
@@ -106,6 +147,8 @@ class PostController extends Controller
 
 // First, you can instantiate response with a status code (required):
 $response = ApiResponse::response(int $statusCode);
+// or directly find a model by id:
+$response = ApiResponse::find(Model::class, int $id);
 
 // To add custom message:
 $response->addMessage(string $message);
@@ -125,21 +168,21 @@ $response->json()
 
 ### Available status code:
 
-| Status code | Response type | Default message       |
-| ----------- | ------------- | --------------------- |
-| `200`       | `success`     | Ok                    |
-| `201`       | `success`     | Created               |
-| `202`       | `success`     | Accepted              |
-| `400`       | `error`       | Bad Request           |
-| `401`       | `error`       | Unauthorized          |
-| `403`       | `error`       | Forbidden             |
-| `404`       | `error`       | Not Found             |
-| `405`       | `error`       | Method Not Allowed    |
-| `408`       | `error`       | Request Timeout       |
-| `429`       | `error`       | Too Many Requests     |
-| `500`       | `error`       | Internal Server Error |
-| `502`       | `error`       | Bad Gateway           |
-| `503`       | `error`       | Service Unavailable   |
+| Status code | Response type | Default message              |
+| ----------- | ------------- | ---------------------------- |
+| `200`       | `success`     | Ok<br>Model Found            |
+| `201`       | `success`     | Created                      |
+| `202`       | `success`     | Accepted                     |
+| `400`       | `error`       | Bad Request                  |
+| `401`       | `error`       | Unauthorized                 |
+| `403`       | `error`       | Forbidden                    |
+| `404`       | `error`       | Not Found<br>Model Not Found |
+| `405`       | `error`       | Method Not Allowed           |
+| `408`       | `error`       | Request Timeout              |
+| `429`       | `error`       | Too Many Requests            |
+| `500`       | `error`       | Internal Server Error        |
+| `502`       | `error`       | Bad Gateway                  |
+| `503`       | `error`       | Service Unavailable          |
 
 ## Testing
 
@@ -149,11 +192,11 @@ composer test
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+> Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
 ## Contributing
 
-Feel free to contribute to this project to improve with new features or fix bugs 👍
+> Feel free to contribute to this project to improve with new features or fix bugs 👍
 
 ## Credits
 
@@ -162,4 +205,6 @@ Feel free to contribute to this project to improve with new features or fix bugs
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT).
+
+> Please see [License File](LICENSE.md) for more information.
