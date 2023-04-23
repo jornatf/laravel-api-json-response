@@ -4,6 +4,7 @@ namespace Jornatf\LaravelApiJsonResponse;
 
 use Exception;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 use Jornatf\LaravelApiJsonResponse\Traits\HasJsonResponse;
 
 class ApiResponse
@@ -33,6 +34,8 @@ class ApiResponse
         502 => 'BadGateway',
         503 => 'ServiceUnavailable',
     ];
+
+    private int $id;
 
     /**
      * Json response instance.
@@ -96,12 +99,37 @@ class ApiResponse
     }
 
     /**
+     * Method to find a model data.
+     *
+     * @param  string  $model
+     * @param  int  $id
+     * @return ApiResponse
+     */
+    public function find($model, $id)
+    {
+        $found = $model::find($id);
+
+        $modelName = $this->getModelName($model);
+
+        if (! $found) {
+            $this->status = 404;
+            $this->addMessage("{$modelName} Not Found");
+        } else {
+            $this->status = 200;
+            $this->addDatas($found->toArray());
+            $this->addMessage("{$modelName} Found");
+        }
+
+        return $this;
+    }
+
+    /**
      * Method to add details.
      *
      * @param  mixed  $details
      * @return ApiResponse
      */
-    public function addDetails(mixed $details)
+    public function addDetails($details)
     {
         if (! in_array(gettype($details), ['array', 'string'])) {
             throw new Exception('addDetails(): must contain array or a string.');
@@ -139,7 +167,7 @@ class ApiResponse
      */
     protected function getStatusText()
     {
-        return Str::title(Str::snake($this->validStatus[$this->status]));
+        return Str::title(Str::snake($this->validStatus[$this->status], ' '));
     }
 
     /**
@@ -150,5 +178,18 @@ class ApiResponse
     protected function getMethod()
     {
         return 'response'.$this->validStatus[$this->status];
+    }
+
+    /**
+     * Returns class name without namespace.
+     * 
+     * @param  string  $model
+     * @return string
+     */
+    protected function getModelName($model)
+    {
+        $model = explode('\\', $model);
+
+        return end($model);
     }
 }
