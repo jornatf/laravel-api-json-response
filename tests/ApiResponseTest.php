@@ -11,7 +11,7 @@ it('can test', function () {
 it('returns json', function () {
     $response = (new ApiResponse)->response(200)
         ->json();
-    
+
     expect($response->getContent())->toBeJson();
 });
 
