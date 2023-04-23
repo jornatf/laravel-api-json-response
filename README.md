@@ -109,7 +109,7 @@ class PostController extends Controller
 }
 ```
 
-**If post found:**
+**If model found:**
 
 ```json
 {
