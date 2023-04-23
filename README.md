@@ -7,11 +7,11 @@
 
 A Laravel Package that returns a JSON Response for APIs. In some methods, you can return cool Json response for your API.
 
-> ####If you like this package you can [Buy me a Coffee](https://www.buymeacoffee.com/jornatf) ☕️
+> #### If you like this package you can [Buy me a Coffee](https://www.buymeacoffee.com/jornatf) ☕️
 
 ## Installation
 
-###Via composer:
+### Via composer:
 
 ```bash
 composer require jornatf/laravel-api-json-response
