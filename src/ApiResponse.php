@@ -3,8 +3,8 @@
 namespace Jornatf\LaravelApiJsonResponse;
 
 use Exception;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Jornatf\LaravelApiJsonResponse\Traits\HasJsonResponse;
 
 class ApiResponse
@@ -172,7 +172,7 @@ class ApiResponse
 
     /**
      * Returns response method.
-     * 
+     *
      * @return string
      */
     protected function getMethod()
@@ -182,7 +182,7 @@ class ApiResponse
 
     /**
      * Returns class name without namespace.
-     * 
+     *
      * @param  string  $model
      * @return string
      */
